@@ -84,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
         selectedPaint = imageButton;
     }
 
+    public void onNewButtonSelected(View view) {
+        whiteboardView.clearCanvas();
+    }
+
     /**
      * This method saves a screenshot of the whiteboard view
      * to internal storage and shows the sharing dialog.

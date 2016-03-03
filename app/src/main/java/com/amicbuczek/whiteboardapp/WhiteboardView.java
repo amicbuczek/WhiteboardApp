@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -126,6 +127,11 @@ public class WhiteboardView extends View {
      */
     public void setPaintColor(int color) {
         drawPaint.setColor(color);
+        invalidate();
+    }
+
+    public void clearCanvas(){
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         invalidate();
     }
 }
