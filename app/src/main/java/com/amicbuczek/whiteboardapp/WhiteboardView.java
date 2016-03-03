@@ -12,12 +12,15 @@ import android.view.View;
 
 /**
  * Created by buczek on 3/3/16.
+ *
+ * This view is used to create a custom drawing
+ * area for the white board app.
  */
 public class WhiteboardView extends View {
 
     private Path path;
     private Paint drawPaint, canvasPaint;
-    private int paintColor = Color.RED;
+    private int paintColor = Color.BLUE;
     private Canvas canvas;
     private Bitmap bitmap;
 
@@ -32,7 +35,8 @@ public class WhiteboardView extends View {
      */
     private void setUpWhiteboard() {
         path = new Path();
-        drawPaint = new Paint(paintColor);
+        drawPaint = new Paint();
+        drawPaint.setColor(paintColor);
 
         //Smooths out the edges of what is being drawn
         drawPaint.setAntiAlias(true);
@@ -94,7 +98,11 @@ public class WhiteboardView extends View {
         } else if(event.getAction() == MotionEvent.ACTION_UP ||
                 event.getAction() == MotionEvent.ACTION_CANCEL) {
             //The drawing is complete, draw the path on the canvas
-            //with the current paint color, and reset the path
+            //with the current paint color, and reset the path.
+
+            //ACTION_CANCEL occurs when the user touches up
+            //outside of the whiteboard view.
+
             canvas.drawPath(path, drawPaint);
             path.reset();
         }else{
@@ -105,5 +113,10 @@ public class WhiteboardView extends View {
         //refresh the view
         invalidate();
         return true;
+    }
+
+    public void setPaintColor(int color) {
+        drawPaint.setColor(color);
+        invalidate();
     }
 }
