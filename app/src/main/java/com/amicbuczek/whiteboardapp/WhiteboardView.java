@@ -15,6 +15,10 @@ import android.view.View;
  *
  * This view is used to create a custom drawing
  * area for the white board app.
+ *
+ * Note some of this code was found/edited from
+ * this tutorial on drawing:
+ * http://code.tutsplus.com/tutorials/android-sdk-create-a-drawing-app-interface-creation--mobile-19021
  */
 public class WhiteboardView extends View {
 
@@ -115,6 +119,11 @@ public class WhiteboardView extends View {
         return true;
     }
 
+    /**
+     * This method is called everytime a new
+     * color is selected or when the eraser
+     * is selected.
+     */
     public void setPaintColor(int color) {
         drawPaint.setColor(color);
         invalidate();
