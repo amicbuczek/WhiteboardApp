@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WhiteboardApp</string>
+    <string name="string_new">New</string>
+    <string name="string_brush">Brush</string>
+    <string name="string_erase">Erase</string>
+    <string name="string_save">Save</string>
+    <string name="string_draw">Draw</string>
+    <string name="string_paint">Paint</string>
 </resources>
