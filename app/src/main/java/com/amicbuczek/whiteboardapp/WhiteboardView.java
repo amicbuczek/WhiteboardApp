@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -111,6 +112,7 @@ public class WhiteboardView extends View {
             path.reset();
         }else{
             //Something unexpected happened, do not draw the path
+            Log.e("WhiteboardView", "onTouchEvent sent an unexpected event -- " + event.getAction());
             return false;
         }
 
