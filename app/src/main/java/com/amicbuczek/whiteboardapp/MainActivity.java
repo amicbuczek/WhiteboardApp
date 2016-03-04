@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 whiteboardView.setPaintColor(Color.WHITE);
                 break;
             case R.id.button_blue_paint:
-                whiteboardView.setPaintColor(Color.argb(255, 255, 0, 29));
+                whiteboardView.setPaintColor(Color.argb(255, 0, 0, 255));
                 break;
             case R.id.button_red_paint:
                 whiteboardView.setPaintColor(Color.argb(255, 255, 0, 29));
@@ -277,6 +278,23 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void onUndoRedoClicked(View view){
+        if(view.getTag() == null){
+            Log.e("MainActivity", "There was an error in the onUndoRedoClicked for tag " + view.getTag());
+        }
+        if(view.getTag().equals("redo")){
+            if(!whiteboardView.redo()){
+                Toast.makeText(this, "Nothing to redo", Toast.LENGTH_SHORT).show();
+            }
+        }else if(view.getTag().equals("undo")) {
+            if(!whiteboardView.undo()){
+                Toast.makeText(this, "Nothing to undo", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Log.e("MainActivity", "There was an error in the onUndoRedoClicked for tag " + view.getTag());
         }
     }
 }

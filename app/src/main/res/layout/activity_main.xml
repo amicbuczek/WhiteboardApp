@@ -65,6 +65,34 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:onClick="onSaveButtonClicked"/>
+        <ImageButton
+            android:id="@+id/button_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/undo"
+            android:src="@drawable/ic_action_undo"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:onClick="onUndoRedoClicked"
+            android:tag="@string/undo"/>
+        <ImageButton
+            android:id="@+id/button_redo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/redo"
+            android:src="@drawable/ic_action_redo"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:onClick="onUndoRedoClicked"
+            android:tag="@string/redo"/>
 
     </LinearLayout>
 

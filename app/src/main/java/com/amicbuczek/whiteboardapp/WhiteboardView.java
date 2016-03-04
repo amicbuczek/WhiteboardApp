@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /**
  * Created by buczek on 3/3/16.
  *
@@ -25,12 +27,20 @@ import android.view.View;
 public class WhiteboardView extends View {
 
     private Path path;
-    private Paint drawPaint, canvasPaint;
+    private Paint drawPaint;
     private Canvas canvas;
-    private Bitmap bitmap;
+    private ArrayList<Path> paths;
+    private ArrayList<Paint> pathColors;
+    private ArrayList<Path> undonePaths;
+    private ArrayList<Paint> undonePathColors;
 
     public WhiteboardView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+
+        paths = new ArrayList<>();
+        undonePaths = new ArrayList<>();
+        pathColors = new ArrayList<>();
+        undonePathColors = new ArrayList<>();
 
         setUpWhiteboard();
     }
@@ -56,8 +66,6 @@ public class WhiteboardView extends View {
         //Alternatively BUTT -- stroke ends with path
         //Square -- ends as a square shape
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
-
-        canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
     /**
@@ -68,7 +76,7 @@ public class WhiteboardView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-        bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
     }
 
@@ -80,8 +88,9 @@ public class WhiteboardView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawBitmap(bitmap, 0, 0, canvasPaint);
-        canvas.drawPath(path, drawPaint);
+        for (int i = 0; i < paths.size() && i < pathColors.size(); i++){
+            canvas.drawPath(paths.get(i), pathColors.get(i));
+        }
     }
 
     /**
@@ -94,8 +103,18 @@ public class WhiteboardView extends View {
         float touchX = event.getX();
         float touchY = event.getY();
 
+        Paint tempPaint = new Paint(drawPaint);
+
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
             //The touch has just begun, start the path at this location
+
+            undonePaths = new ArrayList<>();
+            undonePathColors = new ArrayList<>();
+
+            path = new Path();
+            paths.add(path);
+            pathColors.add(tempPaint);
+
             path.moveTo(touchX, touchY);
         } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
             //Continue the path along this line
@@ -108,8 +127,8 @@ public class WhiteboardView extends View {
             //ACTION_CANCEL occurs when the user touches up
             //outside of the whiteboard view.
 
-            canvas.drawPath(path, drawPaint);
-            path.reset();
+            path.lineTo(touchX, touchY);
+            canvas.drawPath(path, tempPaint);
         }else{
             //Something unexpected happened, do not draw the path
             Log.e("WhiteboardView", "onTouchEvent sent an unexpected event -- " + event.getAction());
@@ -117,6 +136,26 @@ public class WhiteboardView extends View {
         }
 
         //refresh the view
+        invalidate();
+        return true;
+    }
+
+    public boolean undo(){
+        if (paths.size() == 0)
+            return false;
+
+        undonePaths.add(paths.remove(paths.size()-1));
+        undonePathColors.add(pathColors.remove(pathColors.size() - 1));
+        invalidate();
+        return true;
+    }
+
+    public boolean redo(){
+        if (undonePaths.size() == 0)
+            return false;
+
+        paths.add(undonePaths.remove(undonePaths.size()-1));
+        pathColors.add(undonePathColors.remove(undonePathColors.size() - 1));
         invalidate();
         return true;
     }

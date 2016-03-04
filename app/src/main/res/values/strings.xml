@@ -15,4 +15,6 @@
     <string name="choose_custom_brush_size">Choose custom brush size</string>
     <string name="change_brush_size">Change brush size</string>
     <string name="create_a_new_image">Create a new image.</string>
+    <string name="undo">undo</string>
+    <string name="redo">redo</string>
 </resources>
