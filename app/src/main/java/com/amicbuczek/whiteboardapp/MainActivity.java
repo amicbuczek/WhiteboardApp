@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onPaintClicked(View view) {
         final ImageButton imageButton = (ImageButton) view;
-        if (imageButton == selectedPaint){
+        if (imageButton == selectedPaint && imageButton.getId() != R.id.button_choose_color){
             return;
         }
 
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 whiteboardView.setPaintColor(Color.argb(alphaBar.getProgress(), redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress()));
 
-                                imageButton.setBackgroundColor(Color.BLACK);
                                 selectedPaint.setBackgroundColor(Color.TRANSPARENT);
+                                imageButton.setBackgroundColor(Color.BLACK);
                                 selectedPaint = imageButton;
                             }
                         })
@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        imageButton.setBackgroundColor(Color.BLACK);
         selectedPaint.setBackgroundColor(Color.TRANSPARENT);
+        imageButton.setBackgroundColor(Color.BLACK);
         selectedPaint = imageButton;
     }
 
