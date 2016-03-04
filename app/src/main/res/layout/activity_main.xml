@@ -15,10 +15,9 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/button_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/string_new"
+            android:contentDescription="@string/create_a_new_image"
             android:src="@drawable/ic_action_new"
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical"
@@ -29,17 +28,17 @@
             android:onClick="onNewButtonSelected"/>
 
         <ImageButton
-            android:id="@+id/button_draw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/string_draw"
+            android:contentDescription="@string/change_brush_size"
             android:src="@drawable/ic_action_brush"
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical"
             android:padding="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp" />
+            android:layout_marginRight="5dp"
+            android:onClick="onBrushButtonSelected"/>
         <ImageButton
             android:id="@+id/button_erase"
             android:layout_width="wrap_content"
@@ -94,8 +93,8 @@
 
             <ImageButton
                 android:id="@+id/button_blue_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/black"
                 android:contentDescription="@string/string_paint"
@@ -104,8 +103,8 @@
 
             <ImageButton
                 android:id="@+id/button_red_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/red_paint"
@@ -114,8 +113,8 @@
 
             <ImageButton
                 android:id="@+id/button_green_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/green_paint"
@@ -124,8 +123,8 @@
 
             <ImageButton
                 android:id="@+id/button_orange_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/orange_paint"
@@ -134,8 +133,8 @@
 
             <ImageButton
                 android:id="@+id/button_yellow_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/yellow_paint"
@@ -152,8 +151,8 @@
 
             <ImageButton
                 android:id="@+id/button_white_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/white_paint"
@@ -161,8 +160,8 @@
                 android:onClick="onPaintClicked"/>
             <ImageButton
                 android:id="@+id/button_light_gray_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/light_gray_paint"
@@ -170,8 +169,8 @@
                 android:onClick="onPaintClicked" />
             <ImageButton
                 android:id="@+id/button_dark_gray_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/dark_gray_paint"
@@ -179,8 +178,8 @@
                 android:onClick="onPaintClicked" />
             <ImageButton
                 android:id="@+id/button_black_paint"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/black_paint"
@@ -189,8 +188,8 @@
 
             <ImageButton
                 android:id="@+id/button_choose_color"
-                android:layout_width="@dimen/brush_large"
-                android:layout_height="@dimen/brush_large"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_margin="5dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/string_paint"

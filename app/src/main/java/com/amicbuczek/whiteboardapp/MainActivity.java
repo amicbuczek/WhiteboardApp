@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 LayoutInflater layoutInflater = this.getLayoutInflater();
                 final View layout = layoutInflater.inflate(R.layout.dialog_custom_color, (ViewGroup)findViewById(R.id.root_linear_layout));
 
+
                 final SeekBar redBar = (SeekBar) layout.findViewById(R.id.seek_bar_red_color);
                 final SeekBar blueBar = (SeekBar) layout.findViewById(R.id.seek_bar_blue_color);
                 final SeekBar greenBar = (SeekBar) layout.findViewById(R.id.seek_bar_green_color);
@@ -130,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setUpColorChangerLayout(View layout, final SeekBar alphaBar, final SeekBar redBar, final SeekBar blueBar, final SeekBar greenBar) {
         final ImageView chosenColor = (ImageView) layout.findViewById(R.id.final_chosen_color);
-        chosenColor.setBackgroundColor(Color.argb(alphaBar.getProgress(), redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress()));
 
         SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -153,10 +153,83 @@ public class MainActivity extends AppCompatActivity {
         blueBar.setOnSeekBarChangeListener(seekBarChangeListener);
         greenBar.setOnSeekBarChangeListener(seekBarChangeListener);
         alphaBar.setOnSeekBarChangeListener(seekBarChangeListener);
+
+        //Update the choices with the current color
+        int initialColor = whiteboardView.getPaintColor();
+
+        chosenColor.setBackgroundColor(initialColor);
+        alphaBar.setProgress(Color.alpha(initialColor));
+        redBar.setProgress(Color.red(initialColor));
+        greenBar.setProgress(Color.green(initialColor));
+        blueBar.setProgress(Color.blue(initialColor));
+
     }
 
+    /**
+     * This method is triggered when the plus button (new)
+     * is selected. This will clear the whiteboard view.
+     */
     public void onNewButtonSelected(View view) {
         whiteboardView.clearCanvas();
+    }
+
+    /**
+     * This method is triggered when the brush button
+     * is selected. This will produce a dialog with a SeekBar
+     * allowing the user to create a custom brush size.
+     * An image will increase/decrease with the SeekBar to
+     * accurately show the current brush size.
+     */
+    public void onBrushButtonSelected(View view) {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        final View layout = layoutInflater.inflate(R.layout.dialog_custom_brush_size, (ViewGroup)findViewById(R.id.root_linear_layout));
+
+        final SeekBar brushBar = (SeekBar) layout.findViewById(R.id.seek_bar_brush_size);
+        brushBar.setProgress((int) whiteboardView.getBrushSize());
+
+
+        final ImageView brushSizeImage = (ImageView)layout.findViewById(R.id.image_brush_size);
+        brushSizeImage.getLayoutParams().height = (brushBar.getProgress() + 1) * 2;
+        brushSizeImage.getLayoutParams().width = (brushBar.getProgress() + 1) * 2;
+
+        brushSizeImage.setBackgroundColor(whiteboardView.getPaintColor());
+
+        brushBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                brushSizeImage.getLayoutParams().height = (brushBar.getProgress() + 1) * 2;
+                brushSizeImage.getLayoutParams().width = (brushBar.getProgress() + 1) * 2;
+                brushSizeImage.requestLayout();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        dialog.setView(layout)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        whiteboardView.setBrushSize(brushBar.getProgress());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+        dialog.create();
+        dialog.show();
     }
 
     /**

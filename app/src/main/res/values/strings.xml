@@ -12,4 +12,7 @@
     <string name="alpha">Alpha:</string>
     <string name="choose_custom_color">Choose Custom Color</string>
     <string name="final_chosen_color">Final chosen color</string>
+    <string name="choose_custom_brush_size">Choose custom brush size</string>
+    <string name="change_brush_size">Change brush size</string>
+    <string name="create_a_new_image">Create a new image.</string>
 </resources>

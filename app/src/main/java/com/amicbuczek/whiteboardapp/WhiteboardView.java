@@ -25,7 +25,6 @@ public class WhiteboardView extends View {
 
     private Path path;
     private Paint drawPaint, canvasPaint;
-    private int paintColor = Color.BLUE;
     private Canvas canvas;
     private Bitmap bitmap;
 
@@ -41,12 +40,12 @@ public class WhiteboardView extends View {
     private void setUpWhiteboard() {
         path = new Path();
         drawPaint = new Paint();
-        drawPaint.setColor(paintColor);
+        drawPaint.setColor(Color.BLUE);
 
         //Smooths out the edges of what is being drawn
         drawPaint.setAntiAlias(true);
 
-        drawPaint.setStrokeWidth(getResources().getDimension(R.dimen.brush_medium));
+        drawPaint.setStrokeWidth(15);
         drawPaint.setStyle(Paint.Style.STROKE);
 
         //This will create a smoother circular arc when outer edges meet
@@ -121,15 +120,34 @@ public class WhiteboardView extends View {
     }
 
     /**
-     * This method is called everytime a new
-     * color is selected or when the eraser
-     * is selected.
+     * These two methods get and set the current
+     * paint color for the WhiteBoard view.
      */
     public void setPaintColor(int color) {
         drawPaint.setColor(color);
         invalidate();
     }
 
+    public int getPaintColor() {
+        return  drawPaint.getColor();
+    }
+
+    /**
+     * These two methods get and set the current
+     * brush size used for in drawing on the
+     * whiteboard view.
+     */
+    public void setBrushSize(float size){
+        drawPaint.setStrokeWidth(size);
+    }
+
+    public float getBrushSize() {
+        return drawPaint.getStrokeWidth();
+    }
+
+    /**
+     * Clears the canvas, creating a "new" view.
+     */
     public void clearCanvas(){
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         invalidate();
