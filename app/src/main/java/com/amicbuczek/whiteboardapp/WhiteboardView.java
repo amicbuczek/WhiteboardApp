@@ -33,6 +33,7 @@ public class WhiteboardView extends View {
     private ArrayList<Paint> pathColors;
     private ArrayList<Path> undonePaths;
     private ArrayList<Paint> undonePathColors;
+    private int cleanPagePreviousNumberOfPaths;
 
     public WhiteboardView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -41,6 +42,7 @@ public class WhiteboardView extends View {
         undonePaths = new ArrayList<>();
         pathColors = new ArrayList<>();
         undonePathColors = new ArrayList<>();
+        cleanPagePreviousNumberOfPaths = 0;
 
         setUpWhiteboard();
     }
@@ -188,8 +190,17 @@ public class WhiteboardView extends View {
 
     /**
      * Clears the canvas, creating a "new" view.
+     * Adds all paths currently visible to the undone array.
      */
     public void clearCanvas(){
+        //TODO determine how to show all paths after clearing the view.
+        cleanPagePreviousNumberOfPaths = paths.size();
+
+        for(int i = 0; i < paths.size() && i < pathColors.size(); i++){
+            undonePaths.add(paths.remove(paths.size()-1));
+            undonePathColors.add(pathColors.remove(pathColors.size() - 1));
+        }
+
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         invalidate();
     }
