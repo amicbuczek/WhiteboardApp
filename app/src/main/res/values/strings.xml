@@ -6,4 +6,10 @@
     <string name="string_save">Save</string>
     <string name="string_draw">Draw</string>
     <string name="string_paint">Paint</string>
+    <string name="red">Red:</string>
+    <string name="blue">Blue:</string>
+    <string name="green">Green:</string>
+    <string name="alpha">Alpha:</string>
+    <string name="choose_custom_color">Choose Custom Color</string>
+    <string name="final_chosen_color">Final chosen color</string>
 </resources>

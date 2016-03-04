@@ -1,15 +1,21 @@
 package com.amicbuczek.whiteboardapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SeekBar;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -37,42 +43,70 @@ public class MainActivity extends AppCompatActivity {
      * @param view the selected paint ImageButton
      */
     public void onPaintClicked(View view) {
-        ImageButton imageButton = (ImageButton) view;
+        final ImageButton imageButton = (ImageButton) view;
         if (imageButton == selectedPaint){
             return;
         }
 
-        imageButton.setBackgroundColor(Color.BLACK);
-        selectedPaint.setBackgroundColor(Color.TRANSPARENT);
-
         switch (imageButton.getId()) {
             case R.id.button_choose_color:
-                //TODO Allow the user to choose an ARGB color
-                break;
+                final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                LayoutInflater layoutInflater = this.getLayoutInflater();
+                final View layout = layoutInflater.inflate(R.layout.dialog_custom_color, (ViewGroup)findViewById(R.id.root_linear_layout));
+
+                final SeekBar redBar = (SeekBar) layout.findViewById(R.id.seek_bar_red_color);
+                final SeekBar blueBar = (SeekBar) layout.findViewById(R.id.seek_bar_blue_color);
+                final SeekBar greenBar = (SeekBar) layout.findViewById(R.id.seek_bar_green_color);
+                final SeekBar alphaBar = (SeekBar) layout.findViewById(R.id.seek_bar_alpha_color);
+
+                dialog.setView(layout)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                whiteboardView.setPaintColor(Color.argb(alphaBar.getProgress(), redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress()));
+
+                                imageButton.setBackgroundColor(Color.BLACK);
+                                selectedPaint.setBackgroundColor(Color.TRANSPARENT);
+                                selectedPaint = imageButton;
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+
+                setUpColorChangerLayout(layout, alphaBar, redBar, blueBar, greenBar);
+
+                dialog.create();
+                dialog.show();
+
+                return;
             case R.id.button_erase:
             case R.id.button_white_paint:
                 whiteboardView.setPaintColor(Color.WHITE);
                 break;
             case R.id.button_blue_paint:
-                whiteboardView.setPaintColor(Color.rgb(255, 0, 29));
+                whiteboardView.setPaintColor(Color.argb(255, 255, 0, 29));
                 break;
             case R.id.button_red_paint:
-                whiteboardView.setPaintColor(Color.rgb(255, 0, 29));
+                whiteboardView.setPaintColor(Color.argb(255, 255, 0, 29));
                 break;
             case R.id.button_green_paint:
-                whiteboardView.setPaintColor(Color.rgb(0, 255, 57));
+                whiteboardView.setPaintColor(Color.argb(255, 0, 255, 57));
                 break;
             case R.id.button_orange_paint:
-                whiteboardView.setPaintColor(Color.rgb(255, 152, 44));
+                whiteboardView.setPaintColor(Color.argb(255, 255, 152, 44));
                 break;
             case R.id.button_yellow_paint:
-                whiteboardView.setPaintColor(Color.rgb(255, 255, 65));
+                whiteboardView.setPaintColor(Color.argb(255, 255, 255, 65));
                 break;
             case R.id.button_light_gray_paint:
-                whiteboardView.setPaintColor(Color.rgb(204, 204, 204));
+                whiteboardView.setPaintColor(Color.argb(255, 204, 204, 204));
                 break;
             case R.id.button_dark_gray_paint:
-                whiteboardView.setPaintColor(Color.rgb(68, 68, 68));
+                whiteboardView.setPaintColor(Color.argb(255, 68, 68, 68));
                 break;
             case R.id.button_black_paint:
                 whiteboardView.setPaintColor(Color.BLACK);
@@ -81,7 +115,44 @@ public class MainActivity extends AppCompatActivity {
             default:
 
         }
+
+        imageButton.setBackgroundColor(Color.BLACK);
+        selectedPaint.setBackgroundColor(Color.TRANSPARENT);
         selectedPaint = imageButton;
+    }
+
+    /**
+     * This is a helper method for the dialog.
+     * This method sets up and handles the SeekBar
+     * OnChangeListeners and updates the ImageView's
+     * final chosen color
+     * @param layout - the dialog's layout
+     */
+    private void setUpColorChangerLayout(View layout, final SeekBar alphaBar, final SeekBar redBar, final SeekBar blueBar, final SeekBar greenBar) {
+        final ImageView chosenColor = (ImageView) layout.findViewById(R.id.final_chosen_color);
+        chosenColor.setBackgroundColor(Color.argb(alphaBar.getProgress(), redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress()));
+
+        SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                chosenColor.setBackgroundColor(Color.argb(alphaBar.getProgress(), redBar.getProgress(), greenBar.getProgress(), blueBar.getProgress()));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        };
+
+        redBar.setOnSeekBarChangeListener(seekBarChangeListener);
+        blueBar.setOnSeekBarChangeListener(seekBarChangeListener);
+        greenBar.setOnSeekBarChangeListener(seekBarChangeListener);
+        alphaBar.setOnSeekBarChangeListener(seekBarChangeListener);
     }
 
     public void onNewButtonSelected(View view) {
