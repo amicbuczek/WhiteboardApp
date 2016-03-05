@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,20 +28,14 @@ public class WhiteboardView extends View {
     private Path path;
     private Paint drawPaint;
     private Canvas canvas;
-    private ArrayList<Path> paths;
-    private ArrayList<Paint> pathColors;
-    private ArrayList<Path> undonePaths;
-    private ArrayList<Paint> undonePathColors;
-    private int cleanPagePreviousNumberOfPaths;
+    private ArrayList<PaintPath> paths;
+    private ArrayList<PaintPath> undonePaths;
 
     public WhiteboardView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
         paths = new ArrayList<>();
         undonePaths = new ArrayList<>();
-        pathColors = new ArrayList<>();
-        undonePathColors = new ArrayList<>();
-        cleanPagePreviousNumberOfPaths = 0;
 
         setUpWhiteboard();
     }
@@ -90,8 +83,8 @@ public class WhiteboardView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        for (int i = 0; i < paths.size() && i < pathColors.size(); i++){
-            canvas.drawPath(paths.get(i), pathColors.get(i));
+        for (int i = 0; i < paths.size(); i++){
+            canvas.drawPath(paths.get(i).path, paths.get(i).paint);
         }
     }
 
@@ -111,11 +104,9 @@ public class WhiteboardView extends View {
             //The touch has just begun, start the path at this location
 
             undonePaths = new ArrayList<>();
-            undonePathColors = new ArrayList<>();
 
             path = new Path();
-            paths.add(path);
-            pathColors.add(tempPaint);
+            paths.add(new PaintPath(tempPaint, path));
 
             path.moveTo(touchX, touchY);
         } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -146,8 +137,9 @@ public class WhiteboardView extends View {
         if (paths.size() == 0)
             return false;
 
-        undonePaths.add(paths.remove(paths.size()-1));
-        undonePathColors.add(pathColors.remove(pathColors.size() - 1));
+        PaintPath paintPath = paths.remove(paths.size() - 1);
+        undonePaths.add(paintPath);
+
         invalidate();
         return true;
     }
@@ -156,8 +148,9 @@ public class WhiteboardView extends View {
         if (undonePaths.size() == 0)
             return false;
 
-        paths.add(undonePaths.remove(undonePaths.size()-1));
-        pathColors.add(undonePathColors.remove(undonePathColors.size() - 1));
+        PaintPath paintPath = undonePaths.remove(undonePaths.size() - 1);
+        paths.add(paintPath);
+
         invalidate();
         return true;
     }
@@ -194,14 +187,23 @@ public class WhiteboardView extends View {
      */
     public void clearCanvas(){
         //TODO determine how to show all paths after clearing the view.
-        cleanPagePreviousNumberOfPaths = paths.size();
 
-        for(int i = 0; i < paths.size() && i < pathColors.size(); i++){
-            undonePaths.add(paths.remove(paths.size()-1));
-            undonePathColors.add(pathColors.remove(pathColors.size() - 1));
-        }
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeWidth(10);
 
-        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        Path path = new Path();
+        path.moveTo(0, 0);
+        path.lineTo(0, this.getHeight());
+        path.lineTo(this.getWidth(), this.getHeight());
+        path.lineTo(this.getWidth(), 0);
+        path.lineTo(0, 0);
+        path.close();
+
+        canvas.drawPath(path, paint);
+        paths.add(new PaintPath(paint, path));
+
         invalidate();
     }
 }
