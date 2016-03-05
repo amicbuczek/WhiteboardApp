@@ -186,7 +186,7 @@ public class WhiteboardView extends View {
      * Adds all paths currently visible to the undone array.
      */
     public void clearCanvas(){
-        //TODO determine how to show all paths after clearing the view.
+        undonePaths = new ArrayList<>();
 
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
