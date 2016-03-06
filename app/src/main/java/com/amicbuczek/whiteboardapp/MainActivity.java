@@ -4,7 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -19,8 +21,10 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -295,6 +299,40 @@ public class MainActivity extends AppCompatActivity {
             }
         }else{
             Log.e("MainActivity", "There was an error in the onUndoRedoClicked for tag " + view.getTag());
+        }
+    }
+
+    /**
+     * This method is called when the new photo
+     * button is selected. This will prompt the user to
+     * select an image (or take an image) to be drawn on.
+     */
+    public void  onSelectImage(View view)
+    {
+        // To open up a gallery browser
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"),1);
+        // To handle when an image is selected from the browser, add the following to your Activity
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
+                // currImageURI is the global variable I�m using to hold the content:// URI of the image
+            Uri currImageURI = data.getData();
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(currImageURI);
+                Drawable d = Drawable.createFromStream(inputStream, currImageURI.toString());
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+                    whiteboardView.setBackgroundDrawable(d);
+                else
+                    whiteboardView.setBackground(d);
+            } catch (FileNotFoundException e) {
+                Log.e("MainActivity", "There was an error retrieving the image file.");
+            }
+
         }
     }
 }

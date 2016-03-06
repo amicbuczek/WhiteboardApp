@@ -30,12 +30,17 @@ public class WhiteboardView extends View {
     private Canvas canvas;
     private ArrayList<PaintPath> paths;
     private ArrayList<PaintPath> undonePaths;
+    private Bitmap bitmap;
 
     public WhiteboardView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
         paths = new ArrayList<>();
         undonePaths = new ArrayList<>();
+
+        this.setDrawingCacheEnabled(true);
+        setSaveEnabled(true);
+
 
         setUpWhiteboard();
     }
@@ -69,9 +74,12 @@ public class WhiteboardView extends View {
      */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+        if(bitmap == null) {
+            bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        } else {
+            bitmap = Bitmap.createScaledBitmap(bitmap, w, h, false);
+        }
 
-        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
     }
 
@@ -84,6 +92,7 @@ public class WhiteboardView extends View {
         super.onDraw(canvas);
 
         for (int i = 0; i < paths.size(); i++){
+            canvas.drawBitmap(bitmap, 0, 0, paths.get(i).paint);
             canvas.drawPath(paths.get(i).path, paths.get(i).paint);
         }
     }
@@ -206,4 +215,5 @@ public class WhiteboardView extends View {
 
         invalidate();
     }
+
 }

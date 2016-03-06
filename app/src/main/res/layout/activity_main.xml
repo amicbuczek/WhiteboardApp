@@ -26,7 +26,18 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
             android:onClick="onNewButtonSelected"/>
-
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/add_background_image"
+            android:src="@drawable/ic_action_new_picture"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:onClick="onSelectImage"/>
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

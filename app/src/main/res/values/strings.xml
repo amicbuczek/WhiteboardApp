@@ -17,4 +17,5 @@
     <string name="create_a_new_image">Create a new image.</string>
     <string name="undo">undo</string>
     <string name="redo">redo</string>
+    <string name="add_background_image">Add background image</string>
 </resources>
