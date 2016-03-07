@@ -6,8 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -224,8 +222,7 @@ public class WhiteboardView extends View {
         invalidate();
     }
 
-    public void changeBackground(Drawable drawable) {
-        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+    public void changeBackground(Bitmap bitmap) {
         bitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
         allWhiteboardChanges.add(new WhiteboardChanges(null, null, bitmap));
     }
