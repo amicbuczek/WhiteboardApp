@@ -6,8 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -96,10 +96,7 @@ public class WhiteboardView extends View {
         for (WhiteboardChanges whiteboardChange : allWhiteboardChanges) {
 
             if(whiteboardChange.backgroundImage != null) {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-                    setBackgroundDrawable(whiteboardChange.backgroundImage);
-                else
-                    setBackground(whiteboardChange.backgroundImage);
+                canvas.drawBitmap(whiteboardChange.backgroundImage, 0, 0, null);
             }else {
                 canvas.drawPath(whiteboardChange.path, whiteboardChange.paint);
             }
@@ -156,7 +153,8 @@ public class WhiteboardView extends View {
         if (allWhiteboardChanges.size() == 0)
             return false;
 
-        allUndoneWhiteboardChanges.add(allWhiteboardChanges.remove(allWhiteboardChanges.size() - 1));
+        WhiteboardChanges whiteboardChange = allWhiteboardChanges.remove(allWhiteboardChanges.size() - 1);
+        allUndoneWhiteboardChanges.add(whiteboardChange);
 
         invalidate();
         return true;
@@ -203,7 +201,7 @@ public class WhiteboardView extends View {
      * Clears the canvas, creating a "new" view.
      * Adds all allWhiteboardChanges currently visible to the undone array.
      */
-    public void clearCanvas(){
+    public void newPage(){
         allUndoneWhiteboardChanges = new ArrayList<>();
 
         Paint paint = new Paint();
@@ -217,6 +215,7 @@ public class WhiteboardView extends View {
         path.lineTo(this.getWidth(), this.getHeight());
         path.lineTo(this.getWidth(), 0);
         path.lineTo(0, 0);
+
         path.close();
 
         canvas.drawPath(path, paint);
@@ -225,8 +224,10 @@ public class WhiteboardView extends View {
         invalidate();
     }
 
-    public void changeBackground(Drawable image) {
-        allWhiteboardChanges.add(new WhiteboardChanges(null, null, image));
+    public void changeBackground(Drawable drawable) {
+        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+        bitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), true);
+        allWhiteboardChanges.add(new WhiteboardChanges(null, null, bitmap));
     }
 
 }

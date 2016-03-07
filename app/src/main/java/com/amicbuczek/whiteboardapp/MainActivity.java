@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
      * is selected. This will clear the whiteboard view.
      */
     public void onNewButtonSelected(View view) {
-        whiteboardView.clearCanvas();
+        whiteboardView.newPage();
     }
 
     /**
