@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -28,15 +30,15 @@ public class WhiteboardView extends View {
     private Path path;
     private Paint drawPaint;
     private Canvas canvas;
-    private ArrayList<PaintPath> paths;
-    private ArrayList<PaintPath> undonePaths;
+    private ArrayList<WhiteboardChanges> allWhiteboardChanges;
+    private ArrayList<WhiteboardChanges> allUndoneWhiteboardChanges;
     private Bitmap bitmap;
 
     public WhiteboardView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
-        paths = new ArrayList<>();
-        undonePaths = new ArrayList<>();
+        allWhiteboardChanges = new ArrayList<>();
+        allUndoneWhiteboardChanges = new ArrayList<>();
 
         this.setDrawingCacheEnabled(true);
         setSaveEnabled(true);
@@ -91,9 +93,17 @@ public class WhiteboardView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        for (int i = 0; i < paths.size(); i++){
-            canvas.drawBitmap(bitmap, 0, 0, paths.get(i).paint);
-            canvas.drawPath(paths.get(i).path, paths.get(i).paint);
+        for (WhiteboardChanges whiteboardChange : allWhiteboardChanges) {
+
+            if(whiteboardChange.backgroundImage != null) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+                    setBackgroundDrawable(whiteboardChange.backgroundImage);
+                else
+                    setBackground(whiteboardChange.backgroundImage);
+            }else {
+                canvas.drawPath(whiteboardChange.path, whiteboardChange.paint);
+            }
+            
         }
     }
 
@@ -112,10 +122,10 @@ public class WhiteboardView extends View {
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
             //The touch has just begun, start the path at this location
 
-            undonePaths = new ArrayList<>();
+            allUndoneWhiteboardChanges = new ArrayList<>();
 
             path = new Path();
-            paths.add(new PaintPath(tempPaint, path));
+            allWhiteboardChanges.add(new WhiteboardChanges(tempPaint, path, null));
 
             path.moveTo(touchX, touchY);
         } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -143,22 +153,21 @@ public class WhiteboardView extends View {
     }
 
     public boolean undo(){
-        if (paths.size() == 0)
+        if (allWhiteboardChanges.size() == 0)
             return false;
 
-        PaintPath paintPath = paths.remove(paths.size() - 1);
-        undonePaths.add(paintPath);
+        allUndoneWhiteboardChanges.add(allWhiteboardChanges.remove(allWhiteboardChanges.size() - 1));
 
         invalidate();
         return true;
     }
 
     public boolean redo(){
-        if (undonePaths.size() == 0)
+        if (allUndoneWhiteboardChanges.size() == 0)
             return false;
 
-        PaintPath paintPath = undonePaths.remove(undonePaths.size() - 1);
-        paths.add(paintPath);
+        WhiteboardChanges whiteboardChange = allUndoneWhiteboardChanges.remove(allUndoneWhiteboardChanges.size() - 1);
+        allWhiteboardChanges.add(whiteboardChange);
 
         invalidate();
         return true;
@@ -192,10 +201,10 @@ public class WhiteboardView extends View {
 
     /**
      * Clears the canvas, creating a "new" view.
-     * Adds all paths currently visible to the undone array.
+     * Adds all allWhiteboardChanges currently visible to the undone array.
      */
     public void clearCanvas(){
-        undonePaths = new ArrayList<>();
+        allUndoneWhiteboardChanges = new ArrayList<>();
 
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
@@ -211,9 +220,13 @@ public class WhiteboardView extends View {
         path.close();
 
         canvas.drawPath(path, paint);
-        paths.add(new PaintPath(paint, path));
+        allWhiteboardChanges.add(new WhiteboardChanges(paint, path, null));
 
         invalidate();
+    }
+
+    public void changeBackground(Drawable image) {
+        allWhiteboardChanges.add(new WhiteboardChanges(null, null, image));
     }
 
 }

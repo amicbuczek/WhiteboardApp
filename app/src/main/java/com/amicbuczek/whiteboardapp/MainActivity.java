@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
@@ -325,10 +324,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 InputStream inputStream = getContentResolver().openInputStream(currImageURI);
                 Drawable d = Drawable.createFromStream(inputStream, currImageURI.toString());
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
-                    whiteboardView.setBackgroundDrawable(d);
-                else
-                    whiteboardView.setBackground(d);
+
+                whiteboardView.changeBackground(d);
             } catch (FileNotFoundException e) {
                 Log.e("MainActivity", "There was an error retrieving the image file.");
             }
