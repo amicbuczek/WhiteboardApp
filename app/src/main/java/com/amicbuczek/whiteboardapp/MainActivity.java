@@ -35,11 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
     private WhiteboardView whiteboardView;
     private ImageButton selectedPaint;
+    private boolean firstTimeCreatingShape;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        firstTimeCreatingShape = true;
 
         whiteboardView = (WhiteboardView) findViewById(R.id.whiteboard);
         selectedPaint = (ImageButton) findViewById(R.id.button_blue_paint);
@@ -398,15 +401,18 @@ public class MainActivity extends AppCompatActivity {
             onPaintClicked(bluePaint);
         }
 
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        dialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
-        dialog.setMessage("Drag your new shape to the desired location. Pinch and spread to change the size of the shape. Select the check button to save the location and size of your shape and continue to draw.");
-        dialog.create();
-        dialog.show();
+        if(firstTimeCreatingShape) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    firstTimeCreatingShape = false;
+                }
+            });
+            dialog.setMessage("Drag your new shape to the desired location. Pinch and spread to change the size of the shape. Select the check button to save the location and size of your shape and continue to draw.");
+            dialog.create();
+            dialog.show();
+        }
 
         final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.FAB);
         floatingActionButton.setVisibility(View.VISIBLE);
