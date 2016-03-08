@@ -253,7 +253,11 @@ public class WhiteboardView extends View {
         drawPaint.setColor(color);
 
         if(isDrawingShape){
-            allWhiteboardChanges.get(allWhiteboardChanges.size() - 1).paint = new Paint(drawPaint);
+            Paint tempPaint = new Paint(drawPaint);
+            WhiteboardChange whiteboardChange = allWhiteboardChanges.remove(allWhiteboardChanges.size() - 1);
+            tempPaint.setStyle(whiteboardChange.paint.getStyle());
+            whiteboardChange.paint = tempPaint;
+            allWhiteboardChanges.add(whiteboardChange);
         }
 
         invalidate();
