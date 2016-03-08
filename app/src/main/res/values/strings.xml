@@ -25,4 +25,5 @@
     <string name="choose_shape">Choose shape</string>
     <string name="fill">Fill: </string>
     <string name="fill_shape">Fill the shape</string>
+    <string name="finish_creating_shape">Finish creating shape</string>
 </resources>

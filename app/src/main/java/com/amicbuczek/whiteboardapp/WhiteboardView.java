@@ -274,6 +274,11 @@ public class WhiteboardView extends View {
      */
     public void setBrushSize(float size){
         drawPaint.setStrokeWidth(size);
+
+        if(isDrawingShape){
+            allWhiteboardChanges.get(allWhiteboardChanges.size() - 1).paint = new Paint(drawPaint);
+            invalidate();
+        }
     }
 
     public float getBrushSize() {

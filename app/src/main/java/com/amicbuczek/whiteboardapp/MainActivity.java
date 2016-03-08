@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             case R.id.button_erase:
                 whiteboardView.isDrawingShape = false;
+                findViewById(R.id.FAB).setVisibility(View.GONE);
             case R.id.button_white_paint:
                 whiteboardView.setPaintColor(Color.WHITE);
                 break;
@@ -182,6 +184,14 @@ public class MainActivity extends AppCompatActivity {
      * is selected. This will clear the whiteboard view.
      */
     public void onNewButtonSelected(View view) {
+        whiteboardView.isDrawingShape = false;
+        findViewById(R.id.FAB).setVisibility(View.GONE);
+
+        ImageButton eraseButton = (ImageButton)findViewById(R.id.button_erase);
+        if(eraseButton == selectedPaint){
+            onPaintClicked(findViewById(R.id.button_blue_paint));
+        }
+
         whiteboardView.newPage();
     }
 
@@ -324,6 +334,9 @@ public class MainActivity extends AppCompatActivity {
      * of saving the photo externally.
      */
     public void onSelectImage(View view) {
+        whiteboardView.isDrawingShape = false;
+        findViewById(R.id.FAB).setVisibility(View.GONE);
+
         List<Intent> cameraIntents = new ArrayList<>();
         Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntents.add(captureIntent);
@@ -379,6 +392,12 @@ public class MainActivity extends AppCompatActivity {
      */
     public void onShapeButtonSelected(View view) {
 
+        ImageButton erasePaint = (ImageButton)findViewById(R.id.button_erase);
+        if(erasePaint == selectedPaint) {
+            View bluePaint = findViewById(R.id.button_blue_paint);
+            onPaintClicked(bluePaint);
+        }
+
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
             @Override
@@ -388,6 +407,16 @@ public class MainActivity extends AppCompatActivity {
         dialog.setMessage("Drag your new shape to the desired location. Pinch and spread to change the size of the shape. Select the check button to save the location and size of your shape and continue to draw.");
         dialog.create();
         dialog.show();
+
+        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.FAB);
+        floatingActionButton.setVisibility(View.VISIBLE);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                whiteboardView.isDrawingShape = false;
+                floatingActionButton.setVisibility(View.GONE);
+            }
+        });
 
         if (view.getId() == R.id.button_oval) {
             whiteboardView.drawNewShape(DrawShape.OVAL);
