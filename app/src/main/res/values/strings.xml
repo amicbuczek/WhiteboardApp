@@ -18,4 +18,11 @@
     <string name="undo">undo</string>
     <string name="redo">redo</string>
     <string name="add_background_image">Add background image</string>
+    <string name="select_a_shape">Select a shape</string>
+    <string name="circle">circle</string>
+    <string name="triangle">triangle</string>
+    <string name="rectangle">rectangle</string>
+    <string name="choose_shape">Choose shape</string>
+    <string name="fill">Fill: </string>
+    <string name="fill_shape">Fill the shape</string>
 </resources>

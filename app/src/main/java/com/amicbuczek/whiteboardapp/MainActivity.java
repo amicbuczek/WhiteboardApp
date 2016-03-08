@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        whiteboardView = (WhiteboardView)findViewById(R.id.whiteboard);
-        selectedPaint = (ImageButton)findViewById(R.id.button_blue_paint);
+        whiteboardView = (WhiteboardView) findViewById(R.id.whiteboard);
+        selectedPaint = (ImageButton) findViewById(R.id.button_blue_paint);
     }
 
     /**
@@ -49,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
      * of the paint colors. The method checks to make sure the user
      * selected a new paint color and updates the selection and the
      * whiteboard view with the new color.
+     *
      * @param view the selected paint ImageButton
      */
     public void onPaintClicked(View view) {
         final ImageButton imageButton = (ImageButton) view;
-        if (imageButton == selectedPaint && imageButton.getId() != R.id.button_choose_color){
+        if (imageButton == selectedPaint && imageButton.getId() != R.id.button_choose_color) {
             return;
         }
 
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.button_choose_color:
                 final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 LayoutInflater layoutInflater = this.getLayoutInflater();
-                final View layout = layoutInflater.inflate(R.layout.dialog_custom_color, (ViewGroup)findViewById(R.id.root_linear_layout));
+                final View layout = layoutInflater.inflate(R.layout.dialog_custom_color, (ViewGroup) findViewById(R.id.root_linear_layout));
 
 
                 final SeekBar redBar = (SeekBar) layout.findViewById(R.id.seek_bar_red_color);
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
                 return;
             case R.id.button_erase:
+                whiteboardView.isDrawingShape = false;
             case R.id.button_white_paint:
                 whiteboardView.setPaintColor(Color.WHITE);
                 break;
@@ -136,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
      * This method sets up and handles the SeekBar
      * OnChangeListeners and updates the ImageView's
      * final chosen color
+     *
      * @param layout - the dialog's layout
      */
     private void setUpColorChangerLayout(View layout, final SeekBar alphaBar, final SeekBar redBar, final SeekBar blueBar, final SeekBar greenBar) {
@@ -192,13 +195,13 @@ public class MainActivity extends AppCompatActivity {
     public void onBrushButtonSelected(View view) {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         LayoutInflater layoutInflater = this.getLayoutInflater();
-        final View layout = layoutInflater.inflate(R.layout.dialog_custom_brush_size, (ViewGroup)findViewById(R.id.root_linear_layout));
+        final View layout = layoutInflater.inflate(R.layout.dialog_custom_brush_size, (ViewGroup) findViewById(R.id.root_linear_layout));
 
         final SeekBar brushBar = (SeekBar) layout.findViewById(R.id.seek_bar_brush_size);
         brushBar.setProgress((int) whiteboardView.getBrushSize());
 
 
-        final ImageView brushSizeImage = (ImageView)layout.findViewById(R.id.image_brush_size);
+        final ImageView brushSizeImage = (ImageView) layout.findViewById(R.id.image_brush_size);
         brushSizeImage.getLayoutParams().height = (brushBar.getProgress() + 1) * 2;
         brushSizeImage.getLayoutParams().width = (brushBar.getProgress() + 1) * 2;
 
@@ -244,16 +247,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method saves a screenshot of the whiteboard view
      * to internal storage and shows the sharing dialog.
-     *
+     * <p/>
      * NOTE: Due to this image not being stored externally,
      * this image will be deleted when the app is uninstalled.
      * This allows for the app to bypass asking for read/write
      * external storage permissions. This image is also not accessible
      * by any other app allowing for additional security.
-     *
+     * <p/>
      * NOTE: This code was found and edited from StackOverflow answer:
      * http://stackoverflow.com/a/30172792/2291915
-     *
      */
     public void onSaveButtonClicked(View view) {
         whiteboardView.setDrawingCacheEnabled(true);
@@ -263,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         try {
 
             File cachePath = new File(this.getCacheDir(), "images");
-            if(!cachePath.mkdirs()){
+            if (!cachePath.mkdirs()) {
                 Log.e("MainActivity", "An error occured in creating the directory for the cache path.");
             }
             FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
@@ -289,19 +291,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onUndoRedoClicked(View view){
-        if(view.getTag() == null){
+    /**
+     * This method is called anytime the user selects
+     * the undo or redo button. It calls the
+     * appropriate method in the whiteboard view.
+     */
+    public void onUndoRedoClicked(View view) {
+        if (view.getTag() == null) {
             Log.e("MainActivity", "There was an error in the onUndoRedoClicked for tag " + view.getTag());
         }
-        if(view.getTag().equals("redo")){
-            if(!whiteboardView.redo()){
+        if (view.getTag().equals("redo")) {
+            if (!whiteboardView.redo()) {
                 Toast.makeText(this, "Nothing to redo", Toast.LENGTH_SHORT).show();
             }
-        }else if(view.getTag().equals("undo")) {
-            if(!whiteboardView.undo()){
+        } else if (view.getTag().equals("undo")) {
+            if (!whiteboardView.undo()) {
                 Toast.makeText(this, "Nothing to undo", Toast.LENGTH_SHORT).show();
             }
-        }else{
+        } else {
             Log.e("MainActivity", "There was an error in the onUndoRedoClicked for tag " + view.getTag());
         }
     }
@@ -310,9 +317,13 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the new photo
      * button is selected. This will prompt the user to
      * select an image (or take an image) to be drawn on.
+     * <p/>
+     * NOTE: if an image is taken, the image is stored internally
+     * and can not be found with other Photos. This is to allow
+     * for additional security and to allow for the no additional permissions
+     * of saving the photo externally.
      */
-    public void  onSelectImage(View view)
-    {
+    public void onSelectImage(View view) {
         List<Intent> cameraIntents = new ArrayList<>();
         Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntents.add(captureIntent);
@@ -329,27 +340,73 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(chooserIntent, 1);
     }
 
+    /**
+     * This method is called when the user completes the intent.
+     * The photo is then added as a new layer to the
+     * whiteboard view.
+     */
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == 1) {
             Uri selectedImageUri = data.getData();
             Bitmap bitmap = null;
-            if(selectedImageUri != null) {
+            if (selectedImageUri != null) {
                 try {
                     InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
 
                     Drawable d = Drawable.createFromStream(inputStream, selectedImageUri.toString());
-                    bitmap = ((BitmapDrawable)d).getBitmap();
+                    bitmap = ((BitmapDrawable) d).getBitmap();
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-            }else{
-                bitmap = (Bitmap)data.getExtras().get("data");
+            } else {
+                bitmap = (Bitmap) data.getExtras().get("data");
 
             }
 
             whiteboardView.changeBackground(bitmap);
         }
+    }
+
+    /**
+     * This method is called anytime the user selects the shape
+     * button (triangle in this case). The user is prompted
+     * with a dialog message to select the desired shape and size
+     * of the shape. The user will then be prompted to tap the whiteboard
+     * view where the center of the shape will be placed.
+     */
+    public void onShapeButtonSelected(View view) {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        dialog.setMessage("Drag your new shape to the desired location. Pinch and spread to change the size of the shape. Select the check button to save the location and size of your shape and continue to draw.");
+        dialog.create();
+        dialog.show();
+
+        if (view.getId() == R.id.button_oval) {
+            whiteboardView.drawNewShape(DrawShape.OVAL);
+        } else if (view.getId() == R.id.button_triangle) {
+            whiteboardView.drawNewShape(DrawShape.TRIANGLE);
+        } else if (view.getId() == R.id.button_rectangle) {
+            whiteboardView.drawNewShape(DrawShape.RECTANGLE);
+        }
+
+        ImageButton fillButton = (ImageButton)findViewById(R.id.button_fill);
+        fillButton.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method is called when the user selects
+     * the fill button. The fill button should
+     * only be visible while drawing a shape.
+     */
+    public void onFillClicked(View view) {
+        whiteboardView.fillShape();
     }
 }
