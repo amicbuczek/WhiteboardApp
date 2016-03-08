@@ -88,7 +88,30 @@ public class WhiteboardView extends View {
         if(bitmap == null) {
             bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         } else {
-            bitmap = Bitmap.createScaledBitmap(bitmap, w, h, false);
+            bitmap = Bitmap.createScaledBitmap(bitmap, w, h, true);
+
+            //Scale all paths
+            for(int i = 0; i < allWhiteboardChanges.size(); i++){
+                WhiteboardChange whiteboardChange = allWhiteboardChanges.remove(i);
+
+                RectF rectF = new RectF();
+                if(whiteboardChange.path != null) {
+                    whiteboardChange.path.computeBounds(rectF, true);
+
+                    Matrix scaleMatrix = new Matrix();
+
+                    float width = ((float) w / oldw);
+                    float height = ((float) h / oldh);
+
+                    scaleMatrix.setScale(width, height);
+
+                    whiteboardChange.path.transform(scaleMatrix);
+                }else{
+                    whiteboardChange.backgroundImage = Bitmap.createScaledBitmap(whiteboardChange.backgroundImage, w, h, true);
+                }
+
+                allWhiteboardChanges.add(i, whiteboardChange);
+            }
         }
 
         canvas = new Canvas(bitmap);
@@ -109,7 +132,6 @@ public class WhiteboardView extends View {
             }else {
                 canvas.drawPath(whiteboardChange.path, whiteboardChange.paint);
             }
-            
         }
     }
 
