@@ -147,6 +147,9 @@ public class WhiteboardView extends View {
 
         Paint tempPaint = new Paint(drawPaint);
 
+        //Remove all previous undone paths.
+        allUndoneWhiteboardChanges = new ArrayList<>();
+
         if(isDrawingShape){
             //Save the path for consistent scaling
 
@@ -176,9 +179,6 @@ public class WhiteboardView extends View {
 
 
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            //Remove all previous undone paths.
-            allUndoneWhiteboardChanges = new ArrayList<>();
-
             path = new Path();
             allWhiteboardChanges.add(new WhiteboardChange(tempPaint, path, null));
 
@@ -345,6 +345,9 @@ public class WhiteboardView extends View {
     }
 
     public void drawNewShape(DrawShape shapeToDraw){
+
+        //Remove all previous undone paths.
+        allUndoneWhiteboardChanges = new ArrayList<>();
 
         int x = getWidth() / 2;
         int y = getHeight() / 2;

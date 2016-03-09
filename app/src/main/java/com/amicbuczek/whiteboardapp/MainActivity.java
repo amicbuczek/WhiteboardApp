@@ -99,8 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
                 return;
             case R.id.button_erase:
-                whiteboardView.isDrawingShape = false;
-                findViewById(R.id.FAB).setVisibility(View.GONE);
+                stopDrawingShape();
             case R.id.button_white_paint:
                 whiteboardView.setPaintColor(Color.WHITE);
                 break;
@@ -187,8 +186,7 @@ public class MainActivity extends AppCompatActivity {
      * is selected. This will clear the whiteboard view.
      */
     public void onNewButtonSelected(View view) {
-        whiteboardView.isDrawingShape = false;
-        findViewById(R.id.FAB).setVisibility(View.GONE);
+        stopDrawingShape();
 
         ImageButton eraseButton = (ImageButton)findViewById(R.id.button_erase);
         if(eraseButton == selectedPaint){
@@ -310,6 +308,8 @@ public class MainActivity extends AppCompatActivity {
      * appropriate method in the whiteboard view.
      */
     public void onUndoRedoClicked(View view) {
+        stopDrawingShape();
+
         if (view.getTag() == null) {
             Log.e("MainActivity", "There was an error in the onUndoRedoClicked for tag " + view.getTag());
         }
@@ -337,8 +337,7 @@ public class MainActivity extends AppCompatActivity {
      * of saving the photo externally.
      */
     public void onSelectImage(View view) {
-        whiteboardView.isDrawingShape = false;
-        findViewById(R.id.FAB).setVisibility(View.GONE);
+        stopDrawingShape();
 
         List<Intent> cameraIntents = new ArrayList<>();
         Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -414,13 +413,12 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
 
-        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.FAB);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.FAB);
         floatingActionButton.setVisibility(View.VISIBLE);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                whiteboardView.isDrawingShape = false;
-                floatingActionButton.setVisibility(View.GONE);
+                stopDrawingShape();
             }
         });
 
@@ -445,4 +443,13 @@ public class MainActivity extends AppCompatActivity {
         whiteboardView.fillShape();
     }
 
+    /**
+     * This method is a helper method to update the view
+     * when the user is no longer drawing a shape.
+     */
+    private void stopDrawingShape(){
+        whiteboardView.isDrawingShape = false;
+        findViewById(R.id.FAB).setVisibility(View.GONE);
+        findViewById(R.id.button_fill).setVisibility(View.GONE);
+    }
 }
