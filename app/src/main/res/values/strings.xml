@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name">WhiteboardApp</string>
-    <string name="string_new">New</string>
-    <string name="string_brush">Brush</string>
     <string name="string_erase">Erase</string>
     <string name="string_save">Save</string>
-    <string name="string_draw">Draw</string>
     <string name="string_paint">Paint</string>
     <string name="red">Red:</string>
     <string name="blue">Blue:</string>
@@ -18,12 +15,9 @@
     <string name="undo">undo</string>
     <string name="redo">redo</string>
     <string name="add_background_image">Add background image</string>
-    <string name="select_a_shape">Select a shape</string>
     <string name="circle">circle</string>
     <string name="triangle">triangle</string>
     <string name="rectangle">rectangle</string>
-    <string name="choose_shape">Choose shape</string>
-    <string name="fill">Fill: </string>
     <string name="fill_shape">Fill the shape</string>
     <string name="finish_creating_shape">Finish creating shape</string>
 </resources>

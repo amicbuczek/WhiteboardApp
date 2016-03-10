@@ -31,20 +31,23 @@ public class WhiteboardView extends View {
     private Path path;
     private Paint drawPaint;
     private Canvas canvas;
-    private ArrayList<WhiteboardChange> allWhiteboardChanges;
+
+    private final ArrayList<WhiteboardChange> allWhiteboardChanges;
     private ArrayList<WhiteboardChange> allUndoneWhiteboardChanges;
+
     private Bitmap bitmap;
 
     public boolean isDrawingShape;
     private float lastX;
     private float lastY;
-    private ScaleGestureDetector scaleGestureDetector;
+    private final ScaleGestureDetector scaleGestureDetector;
 
     public WhiteboardView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
         allWhiteboardChanges = new ArrayList<>();
         allUndoneWhiteboardChanges = new ArrayList<>();
+
         isDrawingShape = false;
         lastX = lastY = 0;
 
@@ -142,6 +145,7 @@ public class WhiteboardView extends View {
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         float touchX = event.getX();
         float touchY = event.getY();
 
@@ -196,6 +200,8 @@ public class WhiteboardView extends View {
 
             path.lineTo(touchX, touchY);
             canvas.drawPath(path, tempPaint);
+
+            allWhiteboardChanges.get(allWhiteboardChanges.size() - 1);
         }else{
             //Something unexpected happened, do not draw the path
             Log.e("WhiteboardView", "onTouchEvent sent an unexpected event -- " + event.getAction());
@@ -344,8 +350,11 @@ public class WhiteboardView extends View {
         allWhiteboardChanges.add(new WhiteboardChange(null, null, bitmap));
     }
 
+    /**
+     * This method is called by the MainActivity to draw the chosen
+     * shape for the first time on the canvas.
+     */
     public void drawNewShape(DrawShape shapeToDraw){
-
         //Remove all previous undone paths.
         allUndoneWhiteboardChanges = new ArrayList<>();
 

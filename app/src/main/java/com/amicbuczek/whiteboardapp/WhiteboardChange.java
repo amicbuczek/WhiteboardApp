@@ -11,11 +11,10 @@ import android.graphics.Path;
  * made on the whiteboard view whether it be adding
  * a photo or drawing a path.
  */
-public class WhiteboardChange {
+class WhiteboardChange {
     public Paint paint;
-    public Path path;
+    public final Path path;
     public Bitmap backgroundImage;
-
     public WhiteboardChange(Paint paint, Path path, Bitmap backgroundImage){
         this.paint = paint;
         this.path = path;

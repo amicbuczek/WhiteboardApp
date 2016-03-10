@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton selectedPaint;
     private boolean firstTimeCreatingShape;
 
+    private static final int PHOTO_REQUEST_CODE = 1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -217,6 +220,9 @@ public class MainActivity extends AppCompatActivity {
         brushSizeImage.getLayoutParams().width = (brushBar.getProgress() + 1) * 2;
 
         brushSizeImage.setBackgroundColor(whiteboardView.getPaintColor());
+        if(whiteboardView.getPaintColor() == Color.WHITE){
+            brushSizeImage.setBackgroundResource(R.drawable.white_brush_image);
+        }
 
         brushBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -352,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
         // Add the camera options.
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[cameraIntents.size()]));
 
-        startActivityForResult(chooserIntent, 1);
+        startActivityForResult(chooserIntent, PHOTO_REQUEST_CODE);
     }
 
     /**
@@ -363,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == 1) {
+        if (resultCode == RESULT_OK && requestCode == PHOTO_REQUEST_CODE) {
             Uri selectedImageUri = data.getData();
             Bitmap bitmap = null;
             if (selectedImageUri != null) {

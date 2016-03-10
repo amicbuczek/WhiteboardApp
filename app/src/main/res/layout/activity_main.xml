@@ -9,174 +9,165 @@
     tools:context=".MainActivity">
 
     <!-- top button -->
-    <LinearLayout
+
+
+    <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:orientation="horizontal">
+        android:fadeScrollbars="false">
 
-        <ImageButton
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/create_a_new_image"
-            android:onClick="onNewButtonSelected"
-            android:padding="5dp"
-            android:src="@drawable/ic_action_new" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/add_background_image"
-            android:onClick="onSelectImage"
-            android:padding="5dp"
-            android:src="@drawable/ic_action_new_picture" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/create_a_new_image"
+                android:onClick="onNewButtonSelected"
+                android:src="@drawable/ic_action_new" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/change_brush_size"
-            android:onClick="onBrushButtonSelected"
-            android:padding="5dp"
-            android:src="@drawable/ic_action_brush" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/add_background_image"
+                android:onClick="onSelectImage"
+                android:src="@drawable/ic_action_new_picture" />
 
-        <ImageButton
-            android:id="@+id/button_oval"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/circle"
-            android:onClick="onShapeButtonSelected"
-            android:padding="5dp"
-            android:src="@drawable/shape_circle" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/change_brush_size"
+                android:onClick="onBrushButtonSelected"
+                android:src="@drawable/ic_action_brush" />
 
-        <ImageButton
-            android:id="@+id/button_triangle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/triangle"
-            android:onClick="onShapeButtonSelected"
-            android:padding="5dp"
-            android:src="@drawable/shape_triangle" />
+            <ImageButton
+                android:id="@+id/button_oval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/circle"
+                android:onClick="onShapeButtonSelected"
+                android:src="@drawable/shape_circle" />
 
-        <ImageButton
-            android:id="@+id/button_rectangle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/rectangle"
-            android:onClick="onShapeButtonSelected"
-            android:padding="5dp"
-            android:src="@drawable/shape_rectangle" />
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/button_triangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/triangle"
+                android:onClick="onShapeButtonSelected"
+                android:src="@drawable/shape_triangle" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/button_rectangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/rectangle"
+                android:onClick="onShapeButtonSelected"
+                android:src="@drawable/shape_rectangle" />
 
-        <ImageButton
-            android:id="@+id/button_fill"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/fill_shape"
-            android:onClick="onFillClicked"
-            android:padding="5dp"
-            android:src="@drawable/ic_action_fill"
-            android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/button_fill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/fill_shape"
+                android:onClick="onFillClicked"
+                android:src="@drawable/ic_action_fill"
+                android:visibility="gone" />
 
-        <ImageButton
-            android:id="@+id/button_erase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/string_erase"
-            android:onClick="onPaintClicked"
-            android:padding="5dp"
-            android:src="@drawable/ic_action_erase" />
+            <ImageButton
+                android:id="@+id/button_erase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/string_erase"
+                android:onClick="onPaintClicked"
+                android:src="@drawable/ic_action_erase" />
 
-        <ImageButton
-            android:id="@+id/button_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/string_save"
-            android:onClick="onSaveButtonClicked"
-            android:padding="5dp"
-            android:src="@drawable/ic_action_save" />
+            <ImageButton
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/string_save"
+                android:onClick="onSaveButtonClicked"
+                android:src="@drawable/ic_action_save" />
 
-        <ImageButton
-            android:id="@+id/button_undo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/undo"
-            android:onClick="onUndoRedoClicked"
-            android:padding="5dp"
-            android:src="@drawable/ic_action_undo"
-            android:tag="@string/undo" />
+            <ImageButton
+                android:id="@+id/button_undo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/undo"
+                android:onClick="onUndoRedoClicked"
+                android:src="@drawable/ic_action_undo"
+                android:tag="@string/undo" />
 
-        <ImageButton
-            android:id="@+id/button_redo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/redo"
-            android:onClick="onUndoRedoClicked"
-            android:padding="5dp"
-            android:src="@drawable/ic_action_redo"
-            android:tag="@string/redo" />
+            <ImageButton
+                android:id="@+id/button_redo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/redo"
+                android:onClick="onUndoRedoClicked"
+                android:src="@drawable/ic_action_redo"
+                android:tag="@string/redo" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
-    </LinearLayout>
     <!-- Whiteboard area -->
 
     <RelativeLayout
@@ -196,29 +187,30 @@
             android:id="@+id/FAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_action_check"
-            android:contentDescription="@string/finish_creating_shape"
-            app:backgroundTint="@color/colorPrimary"
-            app:fabSize="normal"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_margin="15dp"
-            android:visibility="gone"/>
+            android:contentDescription="@string/finish_creating_shape"
+            android:src="@drawable/ic_action_check"
+            android:visibility="gone"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="normal" />
 
     </RelativeLayout>
 
     <!-- All color options -->
-    <LinearLayout
+    <HorizontalScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical">
+        android:fadeScrollbars="false"
+        android:layout_gravity="center">
 
         <LinearLayout
             android:id="@+id/linear_layout_top_colors"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
 
             <ImageButton
@@ -271,14 +263,6 @@
                 android:onClick="onPaintClicked"
                 android:src="@drawable/yellow_paint" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_bottom_colors"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <ImageButton
                 android:id="@+id/button_white_paint"
                 android:layout_width="30dp"
@@ -330,7 +314,6 @@
                 android:src="@drawable/rainbow_paint" />
 
         </LinearLayout>
-
-    </LinearLayout>
+    </HorizontalScrollView>
 
 </LinearLayout>
